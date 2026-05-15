@@ -1,0 +1,68 @@
+<div class="item-detail">
+  <!-- Image gallery -->
+  <div class="gallery">
+    <% if (item.images.length > 0) { %>
+      <img id="main-img" src="<%= item.images[0] %>" alt="<%= item.title %>" />
+      <% if (item.images.length > 1) { %>
+        <div class="thumbnails">
+          <% item.images.forEach((img, i) => { %>
+            <img src="<%= img %>" alt="" class="thumb <%= i === 0 ? 'active' : '' %>" onclick="setMainImage(this)" />
+          <% }) %>
+        </div>
+      <% } %>
+    <% } else { %>
+      <div class="no-image large">No photos available</div>
+    <% } %>
+  </div>
+
+  <!-- Info -->
+  <div class="item-info">
+    <% if (item.sold) { %><span class="badge badge--sold">SOLD</span><% } %>
+    <h1><%= item.title %></h1>
+    <p class="item-price large">$<%= item.price.toFixed(2) %></p>
+    <p class="item-meta"><strong>Category:</strong> <%= item.category %></p>
+    <p class="item-meta"><strong>Condition:</strong> <%= item.condition %></p>
+    <div class="item-description">
+      <h3>Description</h3>
+      <p><%= item.description %></p>
+    </div>
+
+    <% if (!item.sold) { %>
+      <div class="inquiry-form card">
+        <h3>Send a message about this item</h3>
+        <% if (typeof query !== 'undefined' && query.error) { %>
+          <p class="error-msg">Something went wrong. Please try again.</p>
+        <% } %>
+        <form action="/inquiries/<%= item._id %>" method="POST">
+          <label>Your name *
+            <input type="text" name="name" required />
+          </label>
+          <label>Email *
+            <input type="email" name="email" required />
+          </label>
+          <label>Phone (optional)
+            <input type="tel" name="phone" />
+          </label>
+          <label>Message *
+            <textarea name="message" rows="4" required>I'm interested in "<%= item.title %>". Is it still available?</textarea>
+          </label>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    <% } else { %>
+      <div class="card sold-notice">
+        <p>This item has been sold. <a href="/">Browse other items</a>.</p>
+      </div>
+    <% } %>
+
+    <a href="/" class="btn btn-outline mt-1">&larr; Back to listings</a>
+  </div>
+</div>
+
+<script>
+function setMainImage(thumb) {
+  document.getElementById('main-img').src = thumb.src;
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+</script>

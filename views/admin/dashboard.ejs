@@ -1,0 +1,101 @@
+<div class="admin-header">
+  <h1>Admin Dashboard</h1>
+  <a href="/admin/items/new" class="btn btn-primary">+ Add Item</a>
+</div>
+
+<!-- Items table -->
+<section class="admin-section">
+  <h2>Items (<%= items.length %>)</h2>
+  <% if (items.length === 0) { %>
+    <p class="empty-state">No items yet. <a href="/admin/items/new">Add your first item</a>.</p>
+  <% } else { %>
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Condition</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% items.forEach(item => { %>
+            <tr class="<%= item.sold ? 'row-sold' : '' %>">
+              <td>
+                <% if (item.images.length > 0) { %>
+                  <img src="<%= item.images[0] %>" alt="" class="table-thumb" />
+                <% } else { %>
+                  <div class="table-thumb no-img">—</div>
+                <% } %>
+              </td>
+              <td><a href="/items/<%= item._id %>" target="_blank"><%= item.title %></a></td>
+              <td>$<%= item.price.toFixed(2) %></td>
+              <td><%= item.category %></td>
+              <td><%= item.condition %></td>
+              <td>
+                <span class="badge <%= item.sold ? 'badge--sold' : 'badge--available' %>">
+                  <%= item.sold ? 'Sold' : 'Available' %>
+                </span>
+              </td>
+              <td class="action-btns">
+                <a href="/admin/items/<%= item._id %>/edit" class="btn btn-sm">Edit</a>
+                <form action="/admin/items/<%= item._id %>/toggle-sold" method="POST" style="display:inline">
+                  <button class="btn btn-sm btn-outline"><%= item.sold ? 'Mark Available' : 'Mark Sold' %></button>
+                </form>
+                <form action="/admin/items/<%= item._id %>/delete" method="POST" style="display:inline"
+                      onsubmit="return confirm('Delete this item?')">
+                  <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</section>
+
+<!-- Inquiries -->
+<section class="admin-section">
+  <h2>Buyer Inquiries (<%= inquiries.length %>)<% if (unreadCount > 0) { %> <span class="badge badge--new"><%= unreadCount %> new</span><% } %></h2>
+  <% if (inquiries.length === 0) { %>
+    <p class="empty-state">No inquiries yet.</p>
+  <% } else { %>
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr><th>Date</th><th>Item</th><th>From</th><th>Message</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+          <% inquiries.forEach(inq => { %>
+            <tr class="<%= !inq.read ? 'row-unread' : '' %>">
+              <td><%= inq.createdAt.toLocaleDateString() %></td>
+              <td><%= inq.itemTitle %></td>
+              <td>
+                <strong><%= inq.name %></strong><br/>
+                <a href="mailto:<%= inq.email %>"><%= inq.email %></a>
+                <% if (inq.phone) { %><br/><%= inq.phone %><% } %>
+              </td>
+              <td class="msg-cell"><%= inq.message %></td>
+              <td class="action-btns">
+                <% if (!inq.read) { %>
+                  <form action="/admin/inquiries/<%= inq._id %>/read" method="POST" style="display:inline">
+                    <button class="btn btn-sm">Mark Read</button>
+                  </form>
+                <% } %>
+                <form action="/admin/inquiries/<%= inq._id %>/delete" method="POST" style="display:inline"
+                      onsubmit="return confirm('Delete this inquiry?')">
+                  <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</section>

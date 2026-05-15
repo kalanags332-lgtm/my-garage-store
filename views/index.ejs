@@ -1,0 +1,50 @@
+<section class="page-hero">
+  <h1>Items For Sale</h1>
+  <p>Quality used home items — pick up locally</p>
+</section>
+
+<!-- Filters -->
+<form class="filter-bar" method="GET" action="/">
+  <input type="text" name="q" placeholder="Search items..." value="<%= query.q || '' %>" />
+  <select name="category">
+    <option value="">All categories</option>
+    <% categories.forEach(cat => { %>
+      <option value="<%= cat %>" <%= query.category === cat ? 'selected' : '' %>><%= cat %></option>
+    <% }) %>
+  </select>
+  <select name="condition">
+    <option value="">All conditions</option>
+    <% conditions.forEach(cond => { %>
+      <option value="<%= cond %>" <%= query.condition === cond ? 'selected' : '' %>><%= cond %></option>
+    <% }) %>
+  </select>
+  <button type="submit" class="btn">Search</button>
+  <a href="/" class="btn btn-outline">Clear</a>
+</form>
+
+<!-- Item grid -->
+<% if (items.length === 0) { %>
+  <div class="empty-state">
+    <p>No items found. <a href="/">View all</a></p>
+  </div>
+<% } else { %>
+  <div class="item-grid">
+    <% items.forEach(item => { %>
+      <a href="/items/<%= item._id %>" class="item-card <%= item.sold ? 'sold' : '' %>">
+        <div class="item-card__img">
+          <% if (item.images.length > 0) { %>
+            <img src="<%= item.images[0] %>" alt="<%= item.title %>" loading="lazy" />
+          <% } else { %>
+            <div class="no-image">No photo</div>
+          <% } %>
+          <% if (item.sold) { %><span class="badge badge--sold">SOLD</span><% } %>
+        </div>
+        <div class="item-card__body">
+          <h3><%= item.title %></h3>
+          <p class="item-meta"><%= item.category %> · <%= item.condition %></p>
+          <p class="item-price">$<%= item.price.toFixed(2) %></p>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+<% } %>

@@ -1,0 +1,68 @@
+<div class="admin-header">
+  <h1><%= item ? 'Edit Item' : 'Add New Item' %></h1>
+  <a href="/admin" class="btn btn-outline">&larr; Back</a>
+</div>
+
+<% if (error) { %>
+  <p class="error-msg"><%= error %></p>
+<% } %>
+
+<form action="<%= item ? '/admin/items/' + item._id + '/edit' : '/admin/items' %>" method="POST"
+      enctype="multipart/form-data" class="item-form card">
+
+  <label>Title *
+    <input type="text" name="title" value="<%= item ? item.title : '' %>" required />
+  </label>
+
+  <label>Description *
+    <textarea name="description" rows="5" required><%= item ? item.description : '' %></textarea>
+  </label>
+
+  <div class="form-row">
+    <label>Price ($) *
+      <input type="number" name="price" step="0.01" min="0" value="<%= item ? item.price : '' %>" required />
+    </label>
+
+    <label>Category *
+      <select name="category" required>
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat %>" <%= (item && item.category === cat) ? 'selected' : '' %>><%= cat %></option>
+        <% }) %>
+      </select>
+    </label>
+
+    <label>Condition *
+      <select name="condition" required>
+        <% conditions.forEach(cond => { %>
+          <option value="<%= cond %>" <%= (item && item.condition === cond) ? 'selected' : '' %>><%= cond %></option>
+        <% }) %>
+      </select>
+    </label>
+  </div>
+
+  <!-- Existing images (edit mode) -->
+  <% if (item && item.images.length > 0) { %>
+    <div class="existing-images">
+      <p><strong>Current photos</strong> (check to remove):</p>
+      <div class="img-grid">
+        <% item.images.forEach(img => { %>
+          <label class="img-remove-label">
+            <img src="<%= img %>" alt="" />
+            <input type="checkbox" name="removeImages" value="<%= img %>" />
+            <span>Remove</span>
+          </label>
+        <% }) %>
+      </div>
+    </div>
+  <% } %>
+
+  <label>Photos (up to 6, max 5 MB each)
+    <input type="file" name="images" accept="image/*" multiple id="file-input" />
+  </label>
+  <div id="preview-container" class="img-grid"></div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary"><%= item ? 'Save Changes' : 'Add Item' %></button>
+    <a href="/admin" class="btn btn-outline">Cancel</a>
+  </div>
+</form>

@@ -1,0 +1,17 @@
+<div class="auth-page">
+  <div class="card">
+    <h2>Admin Login</h2>
+    <% if (error) { %>
+      <p class="error-msg"><%= error %></p>
+    <% } %>
+    <form action="/auth/login" method="POST">
+      <label>Username
+        <input type="text" name="username" required autofocus />
+      </label>
+      <label>Password
+        <input type="password" name="password" required />
+      </label>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </div>
+</div>

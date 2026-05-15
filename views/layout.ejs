@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> — Home Items Shop</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">🏠 Home Items Shop</a>
+      <nav>
+        <a href="/">Browse</a>
+        <% if (isAdmin) { %>
+          <a href="/admin">Admin</a>
+          <form action="/auth/logout" method="POST" style="display:inline">
+            <button type="submit" class="btn-link">Logout</button>
+          </form>
+        <% } else { %>
+          <a href="/auth/login">Admin Login</a>
+        <% } %>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <%- body %>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>All items are used and sold as-is. Contact seller for more info.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
