@@ -11,7 +11,7 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const ask = (q) => new Promise(r => rl.question(q, r));
 
 (async () => {
-  await mongoose.connect(process.env.MONGODB_URI);
+  await mongoose.connect((process.env.MONGODB_URI || '').trim());
 
   const username = await ask('Admin username: ');
   const password = await ask('Admin password: ');
