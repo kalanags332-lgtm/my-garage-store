@@ -9,7 +9,9 @@ const path = require('path');
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
+const uri = process.env.MONGODB_URI || '';
+console.log('MONGODB_URI starts with:', JSON.stringify(uri.substring(0, 20)));
+mongoose.connect(uri)
   .then(() => console.log('MongoDB connected'))
   .catch(err => { console.error('MongoDB connection error:', err); process.exit(1); });
 
