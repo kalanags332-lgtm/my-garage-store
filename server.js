@@ -9,8 +9,7 @@ const path = require('path');
 const app = express();
 
 // Connect to MongoDB
-const uri = process.env.MONGODB_URI || '';
-console.log('MONGODB_URI starts with:', JSON.stringify(uri.substring(0, 20)));
+const uri = (process.env.MONGODB_URI || '').trim();
 mongoose.connect(uri)
   .then(() => console.log('MongoDB connected'))
   .catch(err => { console.error('MongoDB connection error:', err); process.exit(1); });
@@ -31,7 +30,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
+  store: MongoStore.create({ mongoUrl: uri }),
   cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 hours
 }));
 
