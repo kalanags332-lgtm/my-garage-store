@@ -1,6 +1,9 @@
 /**
- * Run once to create the admin user:
+ * Run once to create an admin user:
  *   node scripts/create-admin.js
+ *
+ * The admin can also log in via /seller/login and will have
+ * full access to all sellers' data.
  */
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -13,17 +16,20 @@ const ask = (q) => new Promise(r => rl.question(q, r));
 (async () => {
   await mongoose.connect((process.env.MONGODB_URI || '').trim());
 
-  const username = await ask('Admin username: ');
-  const password = await ask('Admin password: ');
+  const username    = await ask('Admin username: ');
+  const email       = await ask('Admin email: ');
+  const displayName = await ask('Display name: ');
+  const password    = await ask('Admin password: ');
   rl.close();
 
-  const existing = await User.findOne({ username });
+  const existing = await User.findOne({ $or: [{ username }, { email }] });
   if (existing) {
-    console.log('User already exists. Delete it from MongoDB first to reset.');
+    console.log('A user with that username or email already exists.');
     process.exit(0);
   }
 
-  await User.create({ username, password });
+  await User.create({ username, email, displayName, password, role: 'admin', active: true });
   console.log(`Admin user "${username}" created successfully.`);
+  console.log('Login at /seller/login with your username and password.');
   process.exit(0);
 })();

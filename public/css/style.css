@@ -139,3 +139,32 @@ form label input:focus, form label select:focus, form label textarea:focus { out
 .img-remove-label input { position: absolute; top: 4px; right: 4px; cursor: pointer; }
 .img-remove-label span { display: block; text-align: center; font-size: 0.75rem; color: #ef4444; margin-top: 2px; }
 #preview-container img { width: 90px; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid #e5e7eb; }
+
+/* ===== Seller auth pages ===== */
+.auth-card { max-width: 540px; width: 100%; }
+.auth-brand { font-size: 2.5rem; text-align: center; margin-bottom: 0.5rem; }
+.auth-card h1 { text-align: center; font-size: 1.6rem; font-weight: 800; margin-bottom: 0.25rem; }
+.auth-subtitle { text-align: center; color: #6b7280; font-size: 0.9rem; margin-bottom: 1.5rem; }
+.auth-form { display: flex; flex-direction: column; gap: 0; }
+.auth-switch { text-align: center; font-size: 0.88rem; color: #6b7280; margin-top: 1rem; }
+.btn-full { width: 100%; text-align: center; padding: 0.65rem 1rem; font-size: 1rem; margin-top: 0.5rem; }
+
+/* ===== Stats strip ===== */
+.stats-strip { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.stat-card { flex: 1; min-width: 110px; background: #fff; border-radius: 10px; padding: 1rem 1.25rem; box-shadow: 0 1px 4px rgba(0,0,0,0.08); text-align: center; }
+.stat-card--alert { background: #eff6ff; border: 1px solid #bfdbfe; }
+.stat-num { display: block; font-size: 2rem; font-weight: 800; color: #2563eb; line-height: 1.1; }
+.stat-label { font-size: 0.78rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ===== Seller dashboard header ===== */
+.seller-subtitle { color: #6b7280; font-size: 0.9rem; margin-top: 0.2rem; }
+.header-actions { display: flex; gap: 0.6rem; align-items: center; }
+
+/* ===== Profile page ===== */
+.form-divider { border: none; border-top: 1px solid #e5e7eb; margin: 1.5rem 0; }
+.success-msg { color: #065f46; background: #d1fae5; border: 1px solid #6ee7b7; padding: 0.6rem 1rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem; }
+
+/* ===== Nav seller link ===== */
+.nav-seller-link { color: #555; font-weight: 500; }
+.nav-seller-link:hover { color: #2563eb; }
+

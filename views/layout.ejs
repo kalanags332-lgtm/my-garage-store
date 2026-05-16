@@ -12,13 +12,18 @@
       <a href="/" class="logo">🏠 My Garage Store</a>
       <nav>
         <a href="/">Browse</a>
-        <% if (isAdmin) { %>
-          <a href="/admin">Admin</a>
-          <form action="/auth/logout" method="POST" style="display:inline">
-            <button type="submit" class="btn-link">Logout</button>
+        <% if (isSeller) { %>
+          <a href="/seller/dashboard">My Dashboard</a>
+          <a href="/seller/profile">My Profile</a>
+          <% if (isAdmin) { %>
+            <a href="/seller/sellers">Manage Sellers</a>
+          <% } %>
+          <form action="/seller/logout" method="POST" style="display:inline">
+            <button type="submit" class="btn-link">Logout (<%= sellerName %>)</button>
           </form>
         <% } else { %>
-          <a href="/auth/login">Admin Login</a>
+          <a href="/seller/login" class="nav-seller-link">Seller Login</a>
+          <a href="/seller/register" class="btn btn-sm btn-primary">Become a Seller</a>
         <% } %>
       </nav>
     </div>
@@ -30,7 +35,7 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>All items are used and sold as-is. Contact seller for more info.</p>
+      <p>All items are used and sold as-is. Contact the seller for more info.</p>
     </div>
   </footer>
 

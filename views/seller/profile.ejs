@@ -1,0 +1,55 @@
+<div class="admin-header">
+  <h1>My Profile</h1>
+  <a href="/seller/dashboard" class="btn btn-outline">&larr; Dashboard</a>
+</div>
+
+<% if (error) { %>
+  <p class="error-msg"><%= error %></p>
+<% } %>
+<% if (success) { %>
+  <p class="success-msg"><%= success %></p>
+<% } %>
+
+<form action="/seller/profile" method="POST" class="item-form card">
+
+  <h3>Account Information</h3>
+
+  <div class="form-row">
+    <label>Display Name *
+      <input type="text" name="displayName" value="<%= seller.displayName %>" required />
+    </label>
+    <label>Store Name
+      <input type="text" name="storeName" value="<%= seller.storeName || '' %>" placeholder="e.g. John's Attic" />
+    </label>
+  </div>
+
+  <label>Email Address *
+    <input type="email" name="email" value="<%= seller.email %>" required />
+  </label>
+
+  <label>Username (cannot change)
+    <input type="text" value="<%= seller.username %>" disabled />
+  </label>
+
+  <hr class="form-divider" />
+
+  <h3>Change Password <small>(leave blank to keep current)</small></h3>
+
+  <label>Current Password
+    <input type="password" name="currentPassword" autocomplete="current-password" />
+  </label>
+
+  <div class="form-row">
+    <label>New Password
+      <input type="password" name="newPassword" autocomplete="new-password" />
+    </label>
+    <label>Confirm New Password
+      <input type="password" name="confirmPassword" autocomplete="new-password" />
+    </label>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="/seller/dashboard" class="btn btn-outline">Cancel</a>
+  </div>
+</form>

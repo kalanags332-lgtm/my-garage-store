@@ -1,0 +1,24 @@
+<div class="auth-page">
+  <div class="card auth-card">
+    <div class="auth-brand">🏪</div>
+    <h1>Seller Login</h1>
+    <p class="auth-subtitle">Access your seller dashboard</p>
+
+    <% if (error) { %>
+      <p class="error-msg"><%= error %></p>
+    <% } %>
+
+    <form action="/seller/login" method="POST" class="auth-form">
+      <label>Username
+        <input type="text" name="username" required autofocus autocomplete="username" />
+      </label>
+      <label>Password
+        <input type="password" name="password" required autocomplete="current-password" />
+      </label>
+      <button type="submit" class="btn btn-primary btn-full">Login</button>
+    </form>
+
+    <p class="auth-switch">New seller? <a href="/seller/register">Create an account</a></p>
+    <p class="auth-switch"><a href="/">← Browse as a buyer</a></p>
+  </div>
+</div>

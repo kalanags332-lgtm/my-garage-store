@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
+  seller: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   title: { type: String, required: true, trim: true },
   description: { type: String, required: true },
   price: { type: Number, required: true, min: 0 },
@@ -20,6 +21,7 @@ const itemSchema = new mongoose.Schema({
 });
 
 // Indexes for common query patterns
+itemSchema.index({ seller: 1, createdAt: -1 });
 itemSchema.index({ createdAt: -1 });
 itemSchema.index({ category: 1, createdAt: -1 });
 itemSchema.index({ condition: 1, createdAt: -1 });

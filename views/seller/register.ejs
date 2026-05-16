@@ -1,0 +1,43 @@
+<div class="auth-page">
+  <div class="card auth-card">
+    <div class="auth-brand">🏪</div>
+    <h1>Seller Registration</h1>
+    <p class="auth-subtitle">Create your seller account and start listing items</p>
+
+    <% if (error) { %>
+      <p class="error-msg"><%= error %></p>
+    <% } %>
+
+    <form action="/seller/register" method="POST" class="auth-form">
+      <div class="form-row">
+        <label>Display Name *
+          <input type="text" name="displayName" value="<%= form.displayName || '' %>" required placeholder="Your name" />
+        </label>
+        <label>Store Name
+          <input type="text" name="storeName" value="<%= form.storeName || '' %>" placeholder="e.g. John's Attic" />
+        </label>
+      </div>
+
+      <label>Email Address *
+        <input type="email" name="email" value="<%= form.email || '' %>" required placeholder="you@example.com" />
+      </label>
+
+      <label>Username *
+        <input type="text" name="username" value="<%= form.username || '' %>" required placeholder="Choose a username" autocomplete="username" />
+      </label>
+
+      <div class="form-row">
+        <label>Password *
+          <input type="password" name="password" required placeholder="Min. 8 characters" autocomplete="new-password" />
+        </label>
+        <label>Confirm Password *
+          <input type="password" name="confirmPassword" required placeholder="Repeat password" autocomplete="new-password" />
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full">Create Seller Account</button>
+    </form>
+
+    <p class="auth-switch">Already have an account? <a href="/seller/login">Login here</a></p>
+  </div>
+</div>

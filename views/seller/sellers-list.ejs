@@ -1,0 +1,52 @@
+<div class="admin-header">
+  <h1>Manage Sellers</h1>
+  <a href="/seller/dashboard" class="btn btn-outline">&larr; Dashboard</a>
+</div>
+
+<section class="admin-section">
+  <h2>Registered Sellers (<%= sellers.length %>)</h2>
+  <% if (sellers.length === 0) { %>
+    <p class="empty-state">No sellers registered yet.</p>
+  <% } else { %>
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Store</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Joined</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% sellers.forEach(s => { %>
+            <tr class="<%= !s.active ? 'row-sold' : '' %>">
+              <td><strong><%= s.displayName %></strong></td>
+              <td><%= s.storeName || '—' %></td>
+              <td><%= s.username %></td>
+              <td><a href="mailto:<%= s.email %>"><%= s.email %></a></td>
+              <td><%= s.createdAt.toLocaleDateString() %></td>
+              <td>
+                <span class="badge <%= s.active ? 'badge--available' : 'badge--sold' %>">
+                  <%= s.active ? 'Active' : 'Suspended' %>
+                </span>
+              </td>
+              <td class="action-btns">
+                <form action="/seller/sellers/<%= s._id %>/toggle-active" method="POST" style="display:inline">
+                  <button class="btn btn-sm btn-outline"><%= s.active ? 'Suspend' : 'Activate' %></button>
+                </form>
+                <form action="/seller/sellers/<%= s._id %>/delete" method="POST" style="display:inline"
+                      onsubmit="return confirm('Delete this seller and ALL their items? This cannot be undone.')">
+                  <button class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</section>
