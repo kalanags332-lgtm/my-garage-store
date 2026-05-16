@@ -11,4 +11,7 @@ const inquirySchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+inquirySchema.index({ createdAt: -1 });
+inquirySchema.index({ read: 1, createdAt: -1 });
+
 module.exports = mongoose.model('Inquiry', inquirySchema);

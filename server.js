@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const expressLayouts = require('express-ejs-layouts');
+const compression = require('compression');
 const path = require('path');
 
 const app = express();
@@ -14,6 +15,9 @@ mongoose.connect(uri)
   .then(() => console.log('MongoDB connected'))
   .catch(err => { console.error('MongoDB connection error:', err); process.exit(1); });
 
+// Gzip all responses
+app.use(compression());
+
 // View engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -23,15 +27,19 @@ app.set('layout', 'layout');
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// Static files — cache for 7 days in production
+app.use(express.static(path.join(__dirname, 'public'), {
+  maxAge: process.env.NODE_ENV === 'production' ? '7d' : 0
+}));
 
 // Session
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: (process.env.SESSION_SECRET || '').trim(),
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: uri }),
-  cookie: { maxAge: 1000 * 60 * 60 * 24 } // 24 hours
+  cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
 
 // Make session user available in all views

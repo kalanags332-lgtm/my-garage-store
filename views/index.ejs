@@ -33,7 +33,7 @@
       <a href="/items/<%= item._id %>" class="item-card <%= item.sold ? 'sold' : '' %>">
         <div class="item-card__img">
           <% if (item.images.length > 0) { %>
-            <img src="<%= item.images[0] %>" alt="<%= item.title %>" loading="lazy" />
+            <img src="<%= thumbUrl(item.images[0], 400) %>" alt="<%= item.title %>" loading="lazy" width="400" height="300" />
           <% } else { %>
             <div class="no-image">No photo</div>
           <% } %>
@@ -47,4 +47,17 @@
       </a>
     <% }) %>
   </div>
+
+  <!-- Pagination -->
+  <% if (totalPages > 1) { %>
+    <nav class="pagination">
+      <% if (currentPage > 1) { %>
+        <a href="?<%= new URLSearchParams({...query, page: currentPage - 1}).toString() %>" class="btn btn-outline">&larr; Prev</a>
+      <% } %>
+      <span class="page-info">Page <%= currentPage %> of <%= totalPages %></span>
+      <% if (currentPage < totalPages) { %>
+        <a href="?<%= new URLSearchParams({...query, page: currentPage + 1}).toString() %>" class="btn btn-outline">Next &rarr;</a>
+      <% } %>
+    </nav>
+  <% } %>
 <% } %>

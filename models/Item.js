@@ -19,4 +19,11 @@ const itemSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now }
 });
 
+// Indexes for common query patterns
+itemSchema.index({ createdAt: -1 });
+itemSchema.index({ category: 1, createdAt: -1 });
+itemSchema.index({ condition: 1, createdAt: -1 });
+itemSchema.index({ sold: 1, createdAt: -1 });
+itemSchema.index({ title: 'text' });
+
 module.exports = mongoose.model('Item', itemSchema);

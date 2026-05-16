@@ -106,6 +106,10 @@ form label input:focus, form label select:focus, form label textarea:focus { out
 .text-center { text-align: center; }
 .success-icon { font-size: 3rem; color: #22c55e; margin-bottom: 0.5rem; }
 
+/* ===== Pagination ===== */
+.pagination { display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 2rem; }
+.page-info { color: #6b7280; font-size: 0.9rem; }
+
 /* ===== Empty state ===== */
 .empty-state { text-align: center; padding: 3rem; color: #6b7280; }
 

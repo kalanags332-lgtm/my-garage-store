@@ -10,8 +10,10 @@ router.use(requireAdmin);
 // Dashboard
 router.get('/', async (req, res) => {
   const [items, inquiries] = await Promise.all([
-    Item.find().sort({ createdAt: -1 }),
-    Inquiry.find().sort({ createdAt: -1 })
+    Item.find().sort({ createdAt: -1 })
+      .select('title price category condition images sold createdAt')
+      .lean(),
+    Inquiry.find().sort({ createdAt: -1 }).lean()
   ]);
   const unreadCount = inquiries.filter(i => !i.read).length;
   res.render('admin/dashboard', { title: 'Admin Dashboard', items, inquiries, unreadCount });
@@ -40,7 +42,7 @@ router.post('/items', upload.array('images', 6), async (req, res) => {
 
 // Edit item form
 router.get('/items/:id/edit', async (req, res) => {
-  const item = await Item.findById(req.params.id);
+  const item = await Item.findById(req.params.id).lean();
   if (!item) return res.redirect('/admin');
   const categories = Item.schema.path('category').enumValues;
   const conditions = Item.schema.path('condition').enumValues;
@@ -55,14 +57,12 @@ router.post('/items/:id/edit', upload.array('images', 6), async (req, res) => {
 
     const { title, description, price, category, condition, removeImages } = req.body;
 
-    // Remove selected existing images from Cloudinary
     if (removeImages) {
       const toRemove = Array.isArray(removeImages) ? removeImages : [removeImages];
       await Promise.all(toRemove.map(url => destroyCloudinaryImage(url)));
       item.images = item.images.filter(img => !toRemove.includes(img));
     }
 
-    // Upload new images
     if (req.files && req.files.length > 0) {
       const newUrls = await Promise.all(req.files.map(f => uploadToCloudinary(f.buffer)));
       item.images.push(...newUrls);
